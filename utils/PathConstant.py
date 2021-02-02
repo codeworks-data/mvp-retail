@@ -1,0 +1,5 @@
+INPUT_DIR = 'input/'
+OUTPUT_DIR = 'output/'
+PATH_CUSTOMER = INPUT_DIR + 'Customer.csv'
+PATH_TRANSACTION = INPUT_DIR + 'Transactions.csv'
+PATH_PROD_CAT = INPUT_DIR + 'prod_cat_info.csv'
