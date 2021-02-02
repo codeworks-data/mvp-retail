@@ -6,19 +6,20 @@ import datetime
 
 ###########
 ###########
-#function for all notebook 
+## function for all notebook 
 ###########
 ###########
 
 def hist(datas, col, rot=False):
-    'Function to display histogram with a df and a column name'
-    'We can put true or false if we want to rotate x labels'
+    'Function to display a seaborn countplot from a df and column name'
+    'We can set rot to true or false if we want to rotate x labels'
     sns.countplot(x=col, data=datas)
     if rot == True:
         plt.xticks(rotation=90)
     else:
         pass
     plt.show()
+    
 
 ###########
 ###########
@@ -27,15 +28,15 @@ def hist(datas, col, rot=False):
 ###########
 
 
-def enhance_product_df(df):
-    'This function add two columns to the data frame mapping full object_id and full object_name'
+def adding_name_ID_to_product_df(df):
+    'Function which add two new columns to the df which are the full object_id and the full object_name'
     df['prod_cat_code'] = df['prod_cat_code'].astype(str)
     df['prod_sub_cat_code'] = df['prod_sub_cat_code'].astype(str)
     df['object_id'] = df['prod_cat_code'] + '_' + df['prod_sub_cat_code']
     df['object_name'] = df['prod_cat'] + '_' + df['prod_subcat']
     return df
 
-def create_dict_object(df, object_id, object_name):
+def create_dict_object_ID_Name(df, object_id, object_name):
     'Function to create a dictionnay between object_id and object_name'
     return dict(zip(df.object_id,df.object_name))
 
@@ -44,34 +45,13 @@ def create_dict_object(df, object_id, object_name):
 ## functions for part III. Focus on customer information
 ###########
 ###########
-
-def hist(datas, col, rot=False):
-    'Function to display histogram with a df and a column name'
-    'We can put true or false if we want to rotate x labels'
-    sns.countplot(x=col, data=datas)
-    if rot == True:
-        plt.xticks(rotation=90)
-    else:
-        pass
-    plt.show()
     
-def age(val):
-    'Function to obtain the age of the person from his Date of Birth written in a str'
-    day = int(val[:2])
-    mounth = int(val[3:5]) 
-    year = int(val[6:10])
-    
-    t_start = datetime.datetime(year,mounth,day)    
-    t_end = datetime.datetime.now()
-    return int((t_end - t_start).total_seconds()/(3600*24*30*12))  
 
-
-
-def function_parse_date(a):
-    'This function is used in order to have all date with the same format which is dd-mm-yyyy'
+def reformat_date(date):
+    'Function used in order to have all date with the same format : dd-mm-yyyy'
     L = []
     n = 0
-    for i in a:
+    for i in date:
         
         if i in ['0','1','2','3','4','5','6','7','8','9']:
             L.append(i)
@@ -92,10 +72,10 @@ def function_parse_date(a):
     return ''.join(L)
 
 
-def age_from_transaction(df):
-    'Function which add a columns in the df with the age of the customer when he buy the object'
-    df_T = pd.read_csv("Transactions.csv")
-    df_T['tran_date'] = df_T['tran_date'].apply(function_parse_date)
+def age_when_purchase(df):
+    'Function which add a columns in the df with the age of the customer when he bought the object'
+    df_T = pd.read_csv("data/Transactions.csv")
+    df_T['tran_date'] = df_T['tran_date'].apply(reformat_date)
     df = pd.merge(left = df_T,
                          right = df,
                          left_on = "cust_id",
@@ -109,9 +89,6 @@ def age_from_transaction(df):
     return df[['customer_Id', 'Gender', 'DOB', 'age_when_purchase', 'city_code']]
 
 
-
-
-
 ###########
 ###########
 ## functions for part IV. Focus on transaction
@@ -119,23 +96,35 @@ def age_from_transaction(df):
 ###########
 
 
-def modification_on_transcation(df, dico):
-    'function to run some augmentation on transction data frame'
+def transaction_final_df(df, dico):
+    'Function to run some augmentation on transaction data frame'
+    
+    #we drop unused columns
     df.drop(['transaction_id', 'Rate', 'Tax', 'total_amt'], axis=1, inplace=True)
+    
+    #we change type to str
     df['prod_cat_code'] = df['prod_cat_code'].astype(str)
     df['prod_subcat_code'] = df['prod_subcat_code'].astype(str)
+    
+    #we add new columns with object id and object name
     df['object_id'] = df['prod_cat_code'] + '_' + df['prod_subcat_code']
     df['object_name'] = df['object_id'].map(dico) 
-    df.rename({'Qty': 'rank'}, axis=1, inplace = True)
-    df = df[df['rank']>0]
+    
+    #we rename Qty with rating
+    df.rename({'Qty': 'rating'}, axis=1, inplace = True)
+    
+    #we only keep rating above 0
+    df = df[df['rating']>0]
     df = df.reset_index(drop = True)
+    
+    
     return df
 
 
-def barplot_display_cat(data, ab, ordo):
-    'Function to draw a barplot'
+def barplot_mean_rate_by_item(data, ab, ordo):
+    'Function to draw a barplot according to two columns'
     plt.figure(figsize=(10,6))
-    sns.barplot(x=data[ab], y=data[ordo], palette="Reds_r")
+    sns.barplot(x=data[ab], y=data[ordo], palette="Reds")
     plt.xlabel('\n Category and SubCat', fontsize=15, color='#c0392b')
     plt.ylabel(" Mean rank by item\n", fontsize=15, color='#c0392b')
     plt.xticks(rotation= 90)
@@ -150,8 +139,8 @@ def barplot_display_cat(data, ab, ordo):
 ###########
 
 
-def get_rank_count_logcount(df):
-    'function to add a column with the log count'
+def get_rate_logcount(df):
+    'Function to add a column with the log count'
     
     num_users = len(df.cust_id.unique())
     num_items = len(df.object_id.unique())
@@ -161,7 +150,7 @@ def get_rank_count_logcount(df):
     rating_zero_cnt = total_cnt - df.shape[0]
 
     # get count
-    df_ratings_cnt_tmp = pd.DataFrame(df.groupby('rank').size(), columns=['count'])
+    df_ratings_cnt_tmp = pd.DataFrame(df.groupby('rating').size(), columns=['count'])
 
     df_ratings_cnt = df_ratings_cnt_tmp.append(
         pd.DataFrame({'count': rating_zero_cnt}, index=[0.0]),
@@ -176,20 +165,23 @@ def get_rank_count_logcount(df):
 
 
     
-def barplot_display_rank(data, ab, ordo, log):
-    'function to display rank count and log rank count'
+def barplot_rate_count(data, ab, ordo, log):
+    'Function to display rate count and log of the rate count'
     plt.figure(figsize=(10,6))
     sns.barplot(x=data[ab], y=data[ordo], palette="Reds_r")
-    plt.xlabel('\n Rank', fontsize=15, color='#c0392b')
+    plt.xlabel('\n Ratings', fontsize=15, color='#c0392b')
     if log == True:
-        plt.ylabel("How many rank ? (in log) \n", fontsize=15, color='#c0392b')
+        plt.ylabel("How many rate (in log) \n", fontsize=15, color='#c0392b')
     else:
-        plt.ylabel("How many rank ? \n", fontsize=15, color='#c0392b')
+        plt.ylabel("How many rate \n", fontsize=15, color='#c0392b')
     plt.xticks(rotation= 45)
     plt.tight_layout()
 
 
-
-
-
-
+###########
+###########
+###########
+## END of Function_01
+###########
+###########
+###########

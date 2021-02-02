@@ -1,4 +1,4 @@
-cust_id,rank,object_id,object_name
+cust_id,rating,object_id,object_name
 270384,5,3_5,Electronics_Computers
 267750,3,6_12,Home and kitchen_Tools
 275023,4,5_6,Books_DIY
