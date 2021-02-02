@@ -15,7 +15,7 @@ class MFRecommender:
         """
         Fit the recommender
         :param sales: pd.DataFrame of shape (n_users, n_items), containing closed sales
-        :return:
+        :return: None
         """
         # replace ids with indices
         sales_with_ids_stripped = sales.loc[sorted(sales.index), sorted(sales.columns)].copy()

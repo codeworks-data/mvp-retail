@@ -13,7 +13,7 @@ class ContentBasedRecommender:
 
     def predict(self, users_ids: List) -> pd.DataFrame:
         """
-        Predict categories to be sold the next month for the users lise
+        Predict categories to be sold the next month for the users list
         :param users_ids: List[int] users IDs
         :return: pd.Dataframe, if shape (len(users_ids), n_items), probabilities of sale
         """
@@ -44,6 +44,11 @@ class ContentBasedRecommender:
 
 
 def cloud_predict(request):
+    """
+    Entry point for Cloud functions, to call predict of the ContentBasedRecommender
+    :param request: flask.Request, the request object, should contain a list of users in the attribute 'message'
+    :return: dict(), scores for each item and user
+    """
     cbr = ContentBasedRecommender([])
     cbr.load_fitted_model('gs://'+os.environment['MODEL_BUCKET']+'/'+os.environment['MODEL_DIR'])
     request_json = request.get_json()

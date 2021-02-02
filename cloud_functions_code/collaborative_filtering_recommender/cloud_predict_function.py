@@ -35,7 +35,11 @@ class MFRecommender:
         )
 
     def _load_joblib(self, file_name):
-
+        """
+        Load a pickeled object (joblib) from the bucket.
+        :param file_name: str, Name of the file to load
+        :return: obj, the object to be loaded
+        """
         storage_client = storage.Client()
         bucket_name = os.environ['MODEL_BUCKET']
         model_item = os.environ['MODEL_DIR']+'/'+file_name
@@ -53,7 +57,6 @@ class MFRecommender:
     def load_fitted_model(self) -> None:
         """
         Load a fitted model
-        :param model_folder: str, name of the folder to load the model from
         :return: None
         """
         self.model = self._load_joblib('als_model.joblib')
@@ -62,6 +65,11 @@ class MFRecommender:
 
 
 def cloud_predict(request):
+    """
+    Entry point for Cloud functions, to call predict of the ContentBasedRecommender
+    :param request: flask.Request, the request object, should contain a list of users in the attribute 'message'
+    :return: dict(), scores for each item and user
+    """
     mfr = MFRecommender()
     mfr.load_fitted_model()
     request_json = request.get_json()

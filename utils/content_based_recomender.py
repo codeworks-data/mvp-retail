@@ -15,7 +15,7 @@ class ContentBasedRecommender:
         Fit the recommender
         :param sales: pd.DataFrame of shape (n_users, n_items), containing closed sales
         :param items: pd.DataFrame of shape (n_items, n_features), containing the items features
-        :return:
+        :return: None
         """
         self.items = items
         items_ids = sales.columns.tolist()
