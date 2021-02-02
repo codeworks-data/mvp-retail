@@ -1,0 +1,24 @@
+,prod_cat_code,prod_cat,prod_sub_cat_code,prod_subcat,object_id,object_name
+0,1,Clothing,4,Mens,1_4,Clothing_Mens
+1,1,Clothing,1,Women,1_1,Clothing_Women
+2,1,Clothing,3,Kids,1_3,Clothing_Kids
+3,2,Footwear,1,Mens,2_1,Footwear_Mens
+4,2,Footwear,3,Women,2_3,Footwear_Women
+5,2,Footwear,4,Kids,2_4,Footwear_Kids
+6,3,Electronics,4,Mobiles,3_4,Electronics_Mobiles
+7,3,Electronics,5,Computers,3_5,Electronics_Computers
+8,3,Electronics,8,Personal Appliances,3_8,Electronics_Personal Appliances
+9,3,Electronics,9,Cameras,3_9,Electronics_Cameras
+10,3,Electronics,10,Audio and video,3_10,Electronics_Audio and video
+11,4,Bags,1,Mens,4_1,Bags_Mens
+12,4,Bags,4,Women,4_4,Bags_Women
+13,5,Books,7,Fiction,5_7,Books_Fiction
+14,5,Books,12,Academic,5_12,Books_Academic
+15,5,Books,10,Non-Fiction,5_10,Books_Non-Fiction
+16,5,Books,11,Children,5_11,Books_Children
+17,5,Books,3,Comics,5_3,Books_Comics
+18,5,Books,6,DIY,5_6,Books_DIY
+19,6,Home and kitchen,2,Furnishing,6_2,Home and kitchen_Furnishing
+20,6,Home and kitchen,10,Kitchen,6_10,Home and kitchen_Kitchen
+21,6,Home and kitchen,11,Bath,6_11,Home and kitchen_Bath
+22,6,Home and kitchen,12,Tools,6_12,Home and kitchen_Tools
