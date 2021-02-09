@@ -7,7 +7,7 @@ import implicit
 from scipy.sparse import coo_matrix
 
 
-class MFRecommender:
+class CFRecommender:
     def __init__(self, **params) -> None:
         self.model = implicit.als.AlternatingLeastSquares(**params)
 
