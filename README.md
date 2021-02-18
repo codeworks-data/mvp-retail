@@ -41,7 +41,18 @@ that made the most sense to us.
 | recmetrics | 0.0.12 |
 
 ## Files
-TBD
+### Notebooks
+- Retail_Case_study.ipynb: is the notebook that contains the EDA we have done, and where insights in the part 1 of the article were taken from
+- Evaluation.ipynb: is the notebook where we build all our recommenders (baselines included), and where we evaluated them on the test test
+### Utils
+This directory contains all recommenders (baselines included) code base, one recommender by file. Files names are self-descriptive:
+- content_based_recomender.py
+- collaborative_filtering_matrix_factorization.py
+- baseline_last_sold_recommender.py
+- baseline_most_sold_recommender.py
+### Tests
+This directory contains tests on utils codebase.
+
 
 
 ## Contributors
