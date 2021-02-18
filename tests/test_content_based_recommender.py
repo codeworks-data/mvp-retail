@@ -27,7 +27,7 @@ class TestContentBasedRecommender(unittest.TestCase):
         cbr.fit(sales, items)
 
         # THEN
-        returned_first_dimension, returned_second_dimension = cbr.users_features_normalized_df.shape
+        returned_first_dimension, returned_second_dimension = cbr.known_users_features_preference_normalized_df.shape
         self.assertEqual(
             returned_first_dimension, expected_first_dimension,
             'User features table does not contain {}(number of users) rows'.format(expected_first_dimension)
@@ -59,7 +59,7 @@ class TestContentBasedRecommender(unittest.TestCase):
         cbr.fit(sales, items)
 
         # THEN
-        returned_first_dimension, returned_second_dimension = cbr.unknown_user_features_normalized_df.shape
+        returned_first_dimension, returned_second_dimension = cbr.unknown_users_features_preference_normalized_df.shape
         self.assertEqual(
             returned_first_dimension, expected_first_dimension,
             'User features table does not contain 1 row'
@@ -93,7 +93,7 @@ class TestContentBasedRecommender(unittest.TestCase):
         cbr.fit(sales, items)
 
         # THEN
-        returned_users_features_normalized_df = cbr.users_features_normalized_df
+        returned_users_features_normalized_df = cbr.known_users_features_preference_normalized_df
         self.assertTrue(returned_users_features_normalized_df.equals(expected_users_features_normalized_df))
 
     def test_fit_user_features_should_be_of_shape_n_user_n_items(self):
@@ -176,12 +176,12 @@ class TestContentBasedRecommender(unittest.TestCase):
         )
 
         cbr = ContentBasedRecommender(features_ids)
-        cbr.items_features = features_ids
-        cbr.users_features_normalized_df = pd.DataFrame(
+        cbr.items_features_names = features_ids
+        cbr.known_users_features_preference_normalized_df = pd.DataFrame(
             [[1, 0], [0, 1], [.6, .4]], columns=features_ids, index=customer_ids
         )
-        cbr.unknown_user_features_normalized_df = pd.DataFrame([[.2, .8]], columns=features_ids)
-        cbr.items = items
+        cbr.unknown_users_features_preference_normalized_df = pd.DataFrame([[.2, .8]], columns=features_ids)
+        cbr.items_features = items
 
         expected_predictions = pd.DataFrame(
             [[.4, .6, 1.], [.8, .2, 1.]],
