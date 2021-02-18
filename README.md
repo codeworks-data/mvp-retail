@@ -58,8 +58,8 @@ This directory contains tests on utils codebase.
 
 ## Contributors
 * [Adnene Tekaya](https://github.com/atekaya)
-* [Denise NGUYEN](https://github.com/nise2)
-* [Hajar AIT EL KADI](https://github.com/HAEKADI)
+* [Denise Nguyen](https://github.com/nise2)
+* [Hajar Ait El Kadi](https://github.com/HAEKADI)
 * [Koffi Cornelis](https://github.com/CorKof)
 
 [1]: https://medium.com/codeworksparis/use-case-1-a-glimpse-into-the-world-of-retail-821bea55d5c0
