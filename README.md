@@ -1,14 +1,13 @@
-# Use Case N1 : A Glimpse Into The World of Retail
+# Use Case #1 : A Glimpse Into The World of Retail
 
 ## In a nutshell
-In this project, we tried to understand the consumers behaviour and anticipate it,
-using a combination of data analysis and machine learning.
+In this project, we tried to understand the consumers behaviour and anticipate it, using a combination of data analysis and machine learning.
 
 
-This notebook details the work done on the retail dataset above, obtained from kaggle.
-It contains the data exploration and the customer segmentation analysis.
+This code details the work done on the retail dataset above, obtained from kaggle.
+It contains the data exploration and the customer segmentation analysis as well as recommendation systems.
 
-We have also written an article on our work : [https://medium.com/codeworksparis/use-case-1-a-glimpse-into-the-world-of-retail-821bea55d5c0][1]
+We have also written an article on it: [https://medium.com/codeworksparis/use-case-1-a-glimpse-into-the-world-of-retail-821bea55d5c0][1]
 
 
 ## Table of contents
@@ -18,7 +17,7 @@ We have also written an article on our work : [https://medium.com/codeworksparis
 * [Contributors](#contributors)
 
 ## Data source
-We use a [retail store dataset][2] from Kaggle.
+We use a Kaggle [retail store dataset].
 
 It describes the day-to-day transactions for a set of customers over a period of three years.
 
