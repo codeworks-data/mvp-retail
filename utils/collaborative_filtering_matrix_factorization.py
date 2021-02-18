@@ -50,7 +50,7 @@ class CFRecommender:
 
     def predict(self, users_ids: List) -> pd.DataFrame:
         """
-        Predict categories to be sold the next month for the users lise
+        Predict categories to be sold the next month for the users list
         :param users_ids: List[int] users IDs
         :return: pd.Dataframe, if shape (len(users_ids), n_items), probabilities of sale
         """
@@ -59,17 +59,25 @@ class CFRecommender:
         unknown_users_ids = [uid for uid in users_ids if uid not in self.users_dict]
         n_unknown_users = len(unknown_users_ids)
 
-        known_users_features_array = self.model.user_factors[known_users_indices, :]
-        unknown_users_features_array = self.model.user_factors.mean(axis=0).reshape(
+        # self.model.user_factors is our users_features_preference matrix
+        # self.model.item_factors is our items_features_preference matrix
+        # we will use the to compute the relevence matrix
+
+        known_users_features_preference_array = self.model.user_factors[known_users_indices, :]
+        unknown_users_features_preference_array = self.model.user_factors.mean(axis=0).reshape(
             (-1, self.model.factors)).repeat(n_unknown_users, axis=0)
 
-        users_features_array = np.concatenate([known_users_features_array, unknown_users_features_array])
+        users_features_preference_array = np.concatenate([
+            known_users_features_preference_array, unknown_users_features_preference_array
+        ])
 
-        return pd.DataFrame(
-            np.matmul(users_features_array, self.model.item_factors.T),
+        users_items_relevence = pd.DataFrame(
+            np.matmul(users_features_preference_array, self.model.item_factors.T),
             index=known_users_ids + unknown_users_ids,
             columns=[k for k, v in sorted(self.items_dict.items(), key=lambda item: item[1])]
         )
+
+        return users_items_relevence
 
     def save_fitted_model(self, model_folder: str) -> None:
         """
