@@ -1,24 +1,24 @@
-# Use Case N1 : A Glimpse Into The World of Retail
+# Use Case #1 : A Glimpse Into The World of Retail
 
 ## In a nutshell
-In this project, we tried to understand the consumers behaviour and anticipate it,
-using a combination of data analysis and machine learning.
+In this project, we tried to understand the consumers behaviour and anticipate it, using a combination of data analysis and machine learning.
 
 
-This notebook details the work done on the retail dataset above, obtained from kaggle.
-It contains the data exploration and the customer segmentation analysis.
+This code details the work done on the retail dataset above, obtained from kaggle.
+It contains the data exploration and the customer segmentation analysis as well as recommendation systems.
 
-We have also written an article on our work : [https://medium.com/codeworksparis/use-case-1-a-glimpse-into-the-world-of-retail-821bea55d5c0][1]
+We have also written an article on it: [https://medium.com/codeworksparis/use-case-1-a-glimpse-into-the-world-of-retail-821bea55d5c0][1]
 
 
 ## Table of contents
 * [Data source](#data-source)
 * [Methodology](#methodology)
 * [Technologies](#technologies)
+* [Files](#Files)
 * [Contributors](#contributors)
 
 ## Data source
-We use a [retail store dataset][2] from Kaggle.
+We use a Kaggle [retail store dataset].
 
 It describes the day-to-day transactions for a set of customers over a period of three years.
 
@@ -39,6 +39,20 @@ that made the most sense to us.
 |  pandas | 1.2.1 |
 |  numpy | 1.20.0 | 
 | recmetrics | 0.0.12 |
+
+## Files
+### Notebooks
+- Retail_Case_study.ipynb: is the notebook that contains the EDA we have done, and where insights in the part 1 of the article were taken from
+- Evaluation.ipynb: is the notebook where we build all our recommenders (baselines included), and where we evaluated them on the test test
+### Utils
+This directory contains all recommenders (baselines included) code base, one recommender by file. Files names are self-descriptive:
+- content_based_recomender.py
+- collaborative_filtering_matrix_factorization.py
+- baseline_last_sold_recommender.py
+- baseline_most_sold_recommender.py
+### Tests
+This directory contains tests on utils codebase.
+
 
 
 ## Contributors
