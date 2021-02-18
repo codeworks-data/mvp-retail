@@ -7,8 +7,8 @@ import numpy as np
 class ContentBasedRecommender:
     def __init__(self, features_names: List) -> None:
         self.items_features_names = features_names
-        self.users_features_normalized_df = pd.DataFrame(columns=self.items_features_names)
-        self.unknown_user_features_normalized_df = pd.DataFrame(columns=self.items_features_names)
+        self.known_users_features_preference_normalized_df = pd.DataFrame(columns=self.items_features_names)
+        self.unknown_users_features_preference_normalized_df = pd.DataFrame(columns=self.items_features_names)
 
     def fit(self, users_items_sales: pd.DataFrame, items_features: pd.DataFrame) -> None:
         """
@@ -33,7 +33,9 @@ class ContentBasedRecommender:
         self.known_users_features_preference_normalized_df = pd.DataFrame(
             users_features_preference_normalized, index=users_items_sales.index, columns=self.items_features_names
         )
-        self.unknown_users_features_preference_normalized_df = pd.DataFrame(self.known_users_features_preference_normalized_df.mean()).transpose()
+        self.unknown_users_features_preference_normalized_df = (
+            pd.DataFrame(self.known_users_features_preference_normalized_df.mean()).transpose()
+        )
 
     def predict(self, users_ids: List) -> pd.DataFrame:
         """
@@ -69,9 +71,9 @@ class ContentBasedRecommender:
         :return: None
         """
         os.mkdir(model_folder)
-        self.users_features_normalized_df.to_csv(model_folder+'/users_features_normalized_df.csv')
-        self.unknown_user_features_normalized_df.to_csv(model_folder+'/unknown_user_features_normalized_df.csv')
-        self.items.to_csv(model_folder+'/items.csv')
+        self.known_users_features_preference_normalized_df.to_csv(model_folder+'/known_users_features_preference_normalized_df.csv')
+        self.unknown_users_features_preference_normalized_df.to_csv(model_folder+'/unknown_users_features_preference_normalized_df.csv')
+        self.items_features.to_csv(model_folder+'/items_features.csv')
 
     def load_fitted_model(self, model_folder: str) -> None:
         """
@@ -79,7 +81,7 @@ class ContentBasedRecommender:
         :param model_folder: str, name of the folder to load the model from
         :return: None
         """
-        self.users_features_normalized_df = pd.read_csv(model_folder+'/users_features_normalized_df.csv', index_col=0)
-        self.unknown_user_features_normalized_df = pd.read_csv(model_folder+'/unknown_user_features_normalized_df.csv', index_col=0)
-        self.items = pd.read_csv(model_folder+'/items.csv', index_col=0)
-        self.items_features = self.users_features_normalized_df.columns.tolist()
+        self.known_users_features_preference_normalized_df = pd.read_csv(model_folder+'/known_users_features_preference_normalized_df.csv', index_col=0)
+        self.unknown_users_features_preference_normalized_df = pd.read_csv(model_folder+'/unknown_users_features_preference_normalized_df.csv', index_col=0)
+        self.items_features = pd.read_csv(model_folder+'/items_features.csv', index_col=0)
+        self.items_features_names = self.known_users_features_preference_normalized_df.columns.tolist()
