@@ -5,35 +5,35 @@ import numpy as np
 
 
 class ContentBasedRecommender:
-    def __init__(self, features: List) -> None:
-        self.items_features = features
-        self.users_features_normalized_df = pd.DataFrame(columns=self.items_features)
-        self.unknown_user_features_normalized_df = pd.DataFrame(columns=self.items_features)
+    def __init__(self, features_names: List) -> None:
+        self.items_features_names = features_names
+        self.users_features_normalized_df = pd.DataFrame(columns=self.items_features_names)
+        self.unknown_user_features_normalized_df = pd.DataFrame(columns=self.items_features_names)
 
-    def fit(self, sales: pd.DataFrame, items: pd.DataFrame) -> None:
+    def fit(self, users_items_sales: pd.DataFrame, items_features: pd.DataFrame) -> None:
         """
         Fit the recommender
         :param sales: pd.DataFrame of shape (n_users, n_items), containing closed sales
         :param items: pd.DataFrame of shape (n_items, n_features), containing the items features
         :return: None
         """
-        self.items = items
-        items_ids = sales.columns.tolist()
+        self.items_features = items_features
+        items_ids = users_items_sales.columns.tolist()
 
-        items_features = items.loc[items_ids, self.items_features].values  # Shape: (n_items, n_features)
-        current_sales = sales[items_ids].values  # Shape: (n_users, n_items)
+        items_features_array = items_features.loc[items_ids, self.items_features_names].values  # Shape: (n_items, n_features)
+        users_items_sales_array = users_items_sales[items_ids].values  # Shape: (n_users, n_items)
 
-        users_features = np.matmul(current_sales, items_features)  # Shape: (n_users, n_features)
-        sum_users_features = users_features.sum(axis=1)  # Shape: (n_users,)
-        broad_casted_sum_users_features = (  # Shape: (n_users, n_features)
-            sum_users_features.reshape((-1, 1)).repeat(len(self.items_features), axis=1)
+        users_features_preference = np.matmul(users_items_sales_array, items_features_array)  # Shape: (n_users, n_features)
+        sum_users_features_preference = users_features_preference.sum(axis=1)  # Shape: (n_users,)
+        broad_casted_sum_users_features_preference = (  # Shape: (n_users, n_features)
+            sum_users_features_preference.reshape((-1, 1)).repeat(len(self.items_features_names), axis=1)
         )
 
-        users_features_normalized = users_features/broad_casted_sum_users_features
-        self.users_features_normalized_df = pd.DataFrame(
-            users_features_normalized, index=sales.index, columns=self.items_features
+        users_features_preference_normalized = users_features_preference/broad_casted_sum_users_features_preference
+        self.known_users_features_preference_normalized_df = pd.DataFrame(
+            users_features_preference_normalized, index=users_items_sales.index, columns=self.items_features_names
         )
-        self.unknown_user_features_normalized_df = pd.DataFrame(self.users_features_normalized_df.mean()).transpose()
+        self.unknown_users_features_preference_normalized_df = pd.DataFrame(self.known_users_features_preference_normalized_df.mean()).transpose()
 
     def predict(self, users_ids: List) -> pd.DataFrame:
         """
@@ -41,19 +41,26 @@ class ContentBasedRecommender:
         :param users_ids: List[int] users IDs
         :return: pd.Dataframe, if shape (len(users_ids), n_items), probabilities of sale
         """
-        known_users_ids = [uid for uid in users_ids if uid in self.users_features_normalized_df.index]
-        unknown_users_ids = [uid for uid in users_ids if uid not in self.users_features_normalized_df.index]
+        known_users_ids = [uid for uid in users_ids if uid in self.known_users_features_preference_normalized_df.index]
+        unknown_users_ids = [uid for uid in users_ids if
+                             uid not in self.known_users_features_preference_normalized_df.index]
         n_unknown_users = len(unknown_users_ids)
 
-        known_users_features_array = self.users_features_normalized_df.loc[known_users_ids].values
-        unknown_users_features_array = self.unknown_user_features_normalized_df.values.repeat(n_unknown_users, axis=0)
+        known_users_features_preference_array = self.known_users_features_preference_normalized_df.loc[
+            known_users_ids].values
+        unknown_users_features_preference_array = self.unknown_users_features_preference_normalized_df.values.repeat(
+            n_unknown_users, axis=0)
 
-        users_features_array = np.concatenate([known_users_features_array, unknown_users_features_array])
+        users_features_preference_array = np.concatenate([
+            known_users_features_preference_array, unknown_users_features_preference_array
+        ])
 
-        return pd.DataFrame(
-            np.matmul(users_features_array, self.items.transpose().values),
-            index=known_users_ids+unknown_users_ids, columns=self.items.index
+        users_items_relevence = pd.DataFrame(
+            np.matmul(users_features_preference_array, self.items_features.transpose().values),
+            index=known_users_ids + unknown_users_ids, columns=self.items_features.index
         )
+
+        return users_items_relevence
 
     def save_fitted_model(self, model_folder: str) -> None:
         """
