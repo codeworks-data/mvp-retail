@@ -41,12 +41,13 @@ that made the most sense to us.
 | recmetrics | 0.0.12 |
 
 ## Files
+
 ### Notebooks
-- Retail_Case_study.ipynb: is the notebook that contains the EDA we have done, and where insights in the part 1 of the article were taken from
-- Evaluation.ipynb: is the notebook where we build all our recommenders (baselines included), and where we evaluated them on the test test
+- Retail_Case_study.ipynb: is the notebook that contains the EDA we have done, and where insights in the part 1 of the article were taken from.
+- Evaluation.ipynb: is the notebook where we build all our recommenders (baselines included), and where we evaluated them on the test test.
 ### Utils
 This directory contains all recommenders (baselines included) code base, one recommender by file. Files names are self-descriptive:
-- content_based_recomender.py
+- content_based_recommender.py
 - collaborative_filtering_matrix_factorization.py
 - baseline_last_sold_recommender.py
 - baseline_most_sold_recommender.py
@@ -56,10 +57,10 @@ This directory contains tests on utils codebase.
 
 
 ## Contributors
-* Adnene Tekaya
-* Denise NGUYEN
-* Hajar AIT EL KADI
-* Koffi Cornelis
+* [Adnene Tekaya](https://github.com/atekaya)
+* [Denise NGUYEN](https://github.com/nise2)
+* [Hajar AIT EL KADI](https://github.com/HAEKADI)
+* [Koffi Cornelis](https://github.com/CorKof)
 
 [1]: https://medium.com/codeworksparis/use-case-1-a-glimpse-into-the-world-of-retail-821bea55d5c0
 [2]: https://www.kaggle.com/darpan25bajaj/retail-case-study-data
