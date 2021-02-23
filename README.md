@@ -1,13 +1,13 @@
 # Use Case #1 : A Glimpse Into The World of Retail
 
 ## In a nutshell
-In this project, we tried to understand the consumers behaviour and anticipate it, using a combination of data analysis and machine learning.
+In this project, we tried to understand the consumer behaviour and anticipate it, using a combination of data analysis and machine learning.
 
 
 This code details the work done on the retail dataset above, obtained from kaggle.
-It contains the data exploration and the customer segmentation analysis as well as recommendation systems.
+It contains the data exploration, the customer segmentation analysis as well as recommendation systems.
 
-We have also written an article on it: [https://medium.com/codeworksparis/use-case-1-a-glimpse-into-the-world-of-retail-821bea55d5c0][1]
+We have also written an article about it: [https://medium.com/codeworksparis/use-case-1-a-glimpse-into-the-world-of-retail-821bea55d5c0][1]
 
 
 ## Table of contents
@@ -23,8 +23,7 @@ We use a Kaggle [retail store dataset].
 It describes the day-to-day transactions for a set of customers over a period of three years.
 
 ## Methodology
-To build our recommender, we used and compared two recommendations systems to our baseline,
-that made the most sense to us.
+To build our recommender, we used and compared two recommendation systems:
 - Content-based
 - Collaborative-filtering
 	
@@ -43,8 +42,8 @@ that made the most sense to us.
 ## Files
 
 ### Notebooks
-- Retail_Case_study.ipynb: is the notebook that contains the EDA we have done, and where insights in the part 1 of the article were taken from.
-- Evaluation.ipynb: is the notebook where we build all our recommenders (baselines included), and where we evaluated them on the test test.
+- Retail_Case_study.ipynb: the notebook that contains the EDA we have done, and where insights in the part 1 of the article were taken from.
+- Evaluation.ipynb: the notebook where we build all our recommenders (baselines included), and where we evaluated them on the test set.
 ### Utils
 This directory contains all recommenders (baselines included) code base, one recommender by file. Files names are self-descriptive:
 - content_based_recommender.py
